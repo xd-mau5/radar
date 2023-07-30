@@ -40,10 +40,14 @@ def get_file_list_from_s3(date, radar):
     s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED))
     bucket = 's3-radaresideam'
     s3_prefix = 'l2_data/' + date + '/' + radar
-    # Guardar en response la lista de objetos en el bucket de S3 que superen 1 MB de tamaño
-    response = s3.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
+    paginator = s3.get_paginator('list_objects_v2')
+    pages = paginator.paginate(Bucket=bucket, Prefix=s3_prefix)
     # Crear una lista de objetos en el bucket de S3 que superen 1 MB de tamaño
-    listaDeObjetos = [objeto['Key'] for objeto in response['Contents'] if objeto['Size'] > 1000000]
+    listaDeObjetos = []
+    for page in pages:
+        for obj in page['Contents']:
+            if obj['Size'] > 900000:
+                listaDeObjetos.append(obj['Key'])
     # Ordenar la lista de objetos
     listaDeObjetos.sort()
     return listaDeObjetos
@@ -81,7 +85,7 @@ def get_file_list_from_folder(folder):
     list: A list of files in the folder that exceed 1 MB in size.
     """
     listaDeArchivos = glob.glob(folder + '/*')
-    listaDeArchivos = [archivo for archivo in listaDeArchivos if os.path.getsize(archivo) > 1000000]
+    listaDeArchivos = [archivo for archivo in listaDeArchivos if os.path.getsize(archivo) > 900000]
     listaDeArchivos.sort()
     return listaDeArchivos
 
@@ -264,9 +268,13 @@ def main():
     # Definir el folder donde se van a descargar los archivos
     folder = 'Corozal'
     # Descargar los archivos del bucket de S3
+    print('Lista de archivos en S3')
+    lista_s3 = get_file_list_from_s3(fechaDeHoy, radar)
+    print(lista_s3)
     download_files_from_s3(get_file_list_from_s3(fechaDeHoy, radar), folder)
     # Crear una lista de archivos en el folder
     listaDeArchivos = get_file_list_from_folder(folder)
+    print(listaDeArchivos)
     # Crear una lista de imágenes
     listaDeImagenes = []
     print(get_range_from_radar(listaDeArchivos[0]))
@@ -280,7 +288,7 @@ def main():
                 'Cerete': {'lat': 8.89, 'lon': -75.80},
                 'Chinu': {'lat': 9.1097222222222, 'lon': -75.398055555556}
                 }
-    # Crear una lista de imágenes
+    # Crear una lista de imágenes usando multiprocessing
     for file in listaDeArchivos:
         radar_data = pyart.io.read(file)
         listaDeImagenes.append(create_plot(radar_data, 'reflectivity', 10, 80, municipios_dict))
