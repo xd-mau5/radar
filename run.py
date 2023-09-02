@@ -181,7 +181,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
     cities_lat = [city['lat'] for city in cities_dict.values()]
     cities_lon = [city['lon'] for city in cities_dict.values()]
     # Graficar los marcadores de los municipios
-    ax.plot(cities_lon, cities_lat, 'ko', markersize=3, transform=ccrs.PlateCarree())
+    ax.plot(cities_lon, cities_lat, 'ko', markersize=3, transform=ccrs.PlateCarree(), marker=",")
     for city in cities_dict.keys():
         ax.text(cities_dict[city]['lon'], cities_dict[city]['lat'], city, transform=ccrs.PlateCarree(), fontsize=10)
     # Agregar el marcador del radar en el mapa
@@ -228,7 +228,7 @@ def create_gif_from_images(image_list, radar):
     """
     # Generar el gif
     gif_file = radar + '.gif'
-    with imageio.get_writer(gif_file, mode='I', duration=200) as writer:
+    with imageio.get_writer(gif_file, mode='I', duration=200, loop=0) as writer:
         for image in image_list:
             image_data = imageio.v2.imread(image)
             writer.append_data(image_data) # type: ignore
@@ -288,10 +288,10 @@ def main():
                 'Cerete': {'lat': 8.89, 'lon': -75.80},
                 'Chinu': {'lat': 9.1097222222222, 'lon': -75.398055555556}
                 }
-    # Crear una lista de imágenes usando multiprocessing
-    for file in listaDeArchivos:
+    # Crear una lista de imágenes
+    for file in listaDeArchivos[-30:]:
         radar_data = pyart.io.read(file)
-        listaDeImagenes.append(create_plot(radar_data, 'reflectivity', 10, 80, municipios_dict))
+        listaDeImagenes.append(create_plot(radar_data, 'reflectivity', 0, 80, municipios_dict))
 
     # Crear el gif
     create_gif_from_images(listaDeImagenes, radar)
