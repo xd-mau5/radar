@@ -181,7 +181,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
     cities_lat = [city['lat'] for city in cities_dict.values()]
     cities_lon = [city['lon'] for city in cities_dict.values()]
     # Graficar los marcadores de los municipios
-    ax.plot(cities_lon, cities_lat, 'ko', markersize=3, transform=ccrs.PlateCarree(), marker=",")
+    ax.plot(cities_lon, cities_lat, 'k,', markersize=10, transform=ccrs.PlateCarree())
     for city in cities_dict.keys():
         ax.text(cities_dict[city]['lon'], cities_dict[city]['lat'], city, transform=ccrs.PlateCarree(), fontsize=10)
     # Agregar el marcador del radar en el mapa
