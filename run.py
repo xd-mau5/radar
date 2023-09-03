@@ -161,7 +161,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
     :return: The function returns a string representing the filename of the saved PNG file.
     """
     display = pyart.graph.RadarMapDisplay(data)
-    fig = plt.figure(figsize=(12, 10), dpi=100)
+    fig = plt.figure(figsize=(15, 13), dpi=200)
     fecha = data.time['units'][14:]
     fecha = datetime.datetime.strptime(fecha, '%Y-%m-%dT%H:%M:%SZ')
     fecha = fecha - datetime.timedelta(hours=5) # Fix: subtract timedelta from datetime object
@@ -181,12 +181,13 @@ def create_plot(data, var, vmin, vmax, cities_dict):
     cities_lat = [city['lat'] for city in cities_dict.values()]
     cities_lon = [city['lon'] for city in cities_dict.values()]
     # Graficar los marcadores de los municipios
-    ax.plot(cities_lon, cities_lat, 'k,', markersize=10, transform=ccrs.PlateCarree())
+    ax.plot(cities_lon, cities_lat, 'kx', markersize=3, transform=ccrs.PlateCarree())
     for city in cities_dict.keys():
         ax.text(cities_dict[city]['lon'], cities_dict[city]['lat'], city, transform=ccrs.PlateCarree(), fontsize=10)
     # Agregar el marcador del radar en el mapa
     radar_lat, radar_lon = get_location_from_radar(data)
-    ax.plot(radar_lon, radar_lat, 'k*', markersize=8, transform=ccrs.PlateCarree())
+    ax.plot(radar_lon, radar_lat, 'k+', markersize=5, transform=ccrs.PlateCarree())
+    ax.text(radar_lon, radar_lat, "Radar", transform=ccrs.PlateCarree(), fontsize=5)
     # Guardar la imagen con el nombre de la fecha del radar
     display.plot_ppi_map(
         var, 
@@ -194,7 +195,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
         vmin=vmin, 
         vmax=vmax,
         title = 'Radar Corozal - {} UTC-5'.format(fecha),
-        resolution='50m', 
+        resolution='10m', 
         cmap='pyart_NWSRef', 
         colorbar_label='Factor de Reflectividad (dBZ)',
         colorbar_orient='vertical',
