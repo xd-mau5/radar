@@ -183,7 +183,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
     # Graficar los marcadores de los municipios
     ax.plot(cities_lon, cities_lat, 'kx', markersize=3, transform=ccrs.PlateCarree())
     for city in cities_dict.keys():
-        ax.text(cities_dict[city]['lon'], cities_dict[city]['lat'], city, transform=ccrs.PlateCarree(), fontsize=10)
+        ax.text(cities_dict[city]['lon'], cities_dict[city]['lat'], city, transform=ccrs.PlateCarree(), fontsize=7)
     # Agregar el marcador del radar en el mapa
     radar_lat, radar_lon = get_location_from_radar(data)
     ax.plot(radar_lon, radar_lat, 'k+', markersize=5, transform=ccrs.PlateCarree())
@@ -280,14 +280,18 @@ def main():
     listaDeImagenes = []
     print(get_range_from_radar(listaDeArchivos[0]))
     # Crear un diccionario de municipios
-    municipios_dict = {'Monteria': {'lat': 8.76, 'lon': -75.885555555556},
+    municipios_dict = {
+                'Montería': {'lat': 8.76, 'lon': -75.885555555556},
                 'Sincelejo': {'lat': 9.29, 'lon': -75.39},
                 'Cartagena': {'lat': 10.39, 'lon': -75.48},
                 'Barranquilla': {'lat': 10.96, 'lon': -74.80},
                 'Santa Marta': {'lat': 11.24, 'lon': -74.21},
                 'San Antero': {'lat': 9.37, 'lon': -75.76},
-                'Cerete': {'lat': 8.89, 'lon': -75.80},
-                'Chinu': {'lat': 9.1097222222222, 'lon': -75.398055555556}
+                'Cereté': {'lat': 8.89, 'lon': -75.80},
+                'Chinú': {'lat': 9.1097222222222, 'lon': -75.398055555556},
+                'Los Córdobas': {'lat': 8.8952777777778, 'lon': -76.354722222222},
+                'El Limon': {'lat': 8.690711, 'lon': -76.259945},
+                'Lorica': {'lat': 9.239458, 'lon': -75.813979}
                 }
     # Crear una lista de imágenes
     for file in listaDeArchivos[-30:]:
