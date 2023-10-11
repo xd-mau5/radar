@@ -291,10 +291,18 @@ def main():
                 'Chinú': {'lat': 9.1097222222222, 'lon': -75.398055555556},
                 'Los Córdobas': {'lat': 8.8952777777778, 'lon': -76.354722222222},
                 'El Limon': {'lat': 8.690711, 'lon': -76.259945},
-                'Lorica': {'lat': 9.239458, 'lon': -75.813979}
+                'Lorica': {'lat': 9.239458, 'lon': -75.813979},
+                'San Juan de Urabá': {'lat': 8.7611111111111, 'lon': -76.528611111111},
+                'Turbo': {'lat': 8.0930555555556, 'lon': -76.728333333333},
+                'El Carmen de Bolívar': {'lat': 9.716389, 'lon': -75.120833},
+                'Sahagún': {'lat': 8.950556, 'lon': -75.445556},
+                'San Pelayo': {'lat': 8.957778, 'lon': -75.8375},
+                'Tierralta': {'lat': 8.172778, 'lon': -76.059444},
+                'Planeta Rica': {'lat': 8.408889, 'lon': -75.581944},
+                'Arboletes': {'lat': 8.8511111111111, 'lon': -76.427222222222},
                 }
     # Crear una lista de imágenes
-    for file in listaDeArchivos[-30:]:
+    for file in listaDeArchivos[-37:]:
         radar_data = pyart.io.read(file)
         listaDeImagenes.append(create_plot(radar_data, 'reflectivity', 0, 80, municipios_dict))
 
