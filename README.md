@@ -24,11 +24,18 @@
    ```sh
     pip install -r requirements.txt
     ```
-3. Run the program
+3. Install GDAL library
+  If you are using Linux, you can install GDAL using the following command:
+    ```sh
+    sudo apt install libgdal-dev
+    ```
+    or if you are using Windows use conda
+    
+4. Run the program
     ```sh
      python run.py
      ```
-4. Enjoy the cool radar plot in GIF format :D
+5. Enjoy the cool radar plot in GIF format :D
 
 <!-- USAGE EXAMPLES -->
 ## Example
