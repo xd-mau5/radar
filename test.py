@@ -47,7 +47,7 @@ def get_file_list_from_s3(date, radar):
     listaDeObjetos = []
     for page in pages:
         for obj in page['Contents']:
-            if obj['Size'] > 900000:
+            if obj['Size'] > 400000:
                 listaDeObjetos.append(obj['Key'])
     # Ordenar la lista de objetos
     listaDeObjetos.sort()
@@ -86,7 +86,7 @@ def get_file_list_from_folder(folder):
     list: A list of files in the folder that exceed 1 MB in size.
     """
     listaDeArchivos = glob.glob(folder + '/*')
-    listaDeArchivos = [archivo for archivo in listaDeArchivos if os.path.getsize(archivo) > 900000]
+    listaDeArchivos = [archivo for archivo in listaDeArchivos if os.path.getsize(archivo) > 400000]
     listaDeArchivos.sort()
     return listaDeArchivos
 
@@ -275,19 +275,16 @@ def main():
     # Definir el folder donde se van a descargar los archivos
     folder = 'Corozal'
     # Descargar los archivos del bucket de S3
-    print('Lista de archivos en S3\n')
+    print('Lista de archivos en S3')
     lista_s3 = get_file_list_from_s3(fechaDeHoy, radar)
-    for file in lista_s3:
-        print(file)
+    print(lista_s3)
     download_files_from_s3(get_file_list_from_s3(fechaDeHoy, radar)[-40:], folder)
     # Crear una lista de archivos en el folder
     listaDeArchivos = get_file_list_from_folder(folder)
-    print('\nLista de archivos en la carpeta\n')
-    for file in listaDeArchivos:
-        print(file)
+    print(listaDeArchivos)
     # Crear una lista de imágenes
     listaDeImagenes = []
-    print('\nRango del radar:', get_range_from_radar(listaDeArchivos[0]), 'km\n')
+    print(get_range_from_radar(listaDeArchivos[0]))
     # Crear un diccionario de municipios leídos del archivo YAML
     with open('locations.yaml') as file:
         municipios_dict = yaml.load(file, Loader=yaml.FullLoader)
