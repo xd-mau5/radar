@@ -18,7 +18,7 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/xd-mau5/grafica-radar.git
+   git clone https://github.com/xd-mau5/radar.git
    ```
 2. Install python packages
    ```sh
