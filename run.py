@@ -200,7 +200,7 @@ def create_plot(data, var, vmin, vmax, cities_dict):
         vmin=vmin, 
         vmax=vmax,
         resolution='10m', 
-        cmap='pyart_NWSRef', 
+        cmap='NWSRef', 
         colorbar_label='Factor de Reflectividad (dBZ)',
         colorbar_orient='vertical',
         fig=fig,
