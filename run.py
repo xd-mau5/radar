@@ -72,8 +72,6 @@ def download_files_from_s3(file_list, folder):
         print('Descargando ' + file.split('/')[-1])
     print('Descarga finalizada')
 
-import glob
-import os
 
 def get_file_list_from_folder(folder):
     """
